@@ -61,6 +61,7 @@ func (c *Client) Call(from, to string, answerURL *url.URL) (*http.Response, erro
 }
 
 func (c *Client) newRequest(req *http.Request) (*http.Response, error) {
+	req = req.WithContext(c.ctx)
 	req.SetBasicAuth(c.authID, c.authToken)
 	req.Header.Set("User-Agent", userAgent)
 	req.Header.Set("Content-Type", "application/json")

@@ -2,17 +2,15 @@ package plivo
 
 import (
 	"context"
-	"net/http/httputil"
 	"net/url"
+	"os"
 	"testing"
 )
 
-const (
-	authID    = "your authID"
-	authToken = "your authToken"
-	from      = "11111111111"
-	to        = "11111111111"
-)
+var authID = os.Getenv("AUTH_ID")
+var authToken = os.Getenv("AUTH_TOKEN")
+var fromNumber = os.Getenv("FROM_NUMBER")
+var toNumber = os.Getenv("TO_NUMBER")
 
 /*
 HTTP/1.1 201 CREATED
@@ -38,15 +36,9 @@ func TestCall(t *testing.T) {
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-	resp, err := c.Call(from, to, u)
+	resp, err := c.Call(fromNumber, toNumber, u)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-
-	rawReq, err := httputil.DumpResponse(resp, true)
-	if err != nil {
-		t.Fatalf("unexpected error: %v", err)
-	}
-
-	t.Logf("%s", string(rawReq))
+	defer resp.Body.Close()
 }

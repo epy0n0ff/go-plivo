@@ -12,22 +12,7 @@ var authToken = os.Getenv("AUTH_TOKEN")
 var fromNumber = os.Getenv("FROM_NUMBER")
 var toNumber = os.Getenv("TO_NUMBER")
 
-/*
-HTTP/1.1 201 CREATED
-Content-Length: 139
-Connection: keep-alive
-Content-Type: application/json
-Date: Sun, 09 Jul 2017 18:33:37 GMT
-Server: nginx/1.4.6 (Ubuntu)
-X-Plivo-Signature: xxxxx
-
-{
-	"api_id": "xxxx",
- 	 "message": "call fired",
- 	 "request_uuid": "xxxxxxx"
-}
-*/
-func TestCall(t *testing.T) {
+func TestMakeCall(t *testing.T) {
 	c, err := NewClient(context.Background(), authID, authToken)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -36,9 +21,25 @@ func TestCall(t *testing.T) {
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-	resp, err := c.Call(fromNumber, toNumber, u)
+	resp, err := c.MakeCall(fromNumber, toNumber, u)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
 	defer resp.Body.Close()
+}
+
+func TestGetCallDetails(t *testing.T) {
+	c, err := NewClient(context.Background(), authID, authToken)
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+
+	res, err := c.GetCallDetails()
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+
+	if res == nil {
+		t.Fatalf("unexpected error: %v", "response is empty")
+	}
 }

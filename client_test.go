@@ -27,7 +27,7 @@ X-Plivo-Signature: xxxxx
  	 "request_uuid": "xxxxxxx"
 }
 */
-func TestCall(t *testing.T) {
+func TestMakeCall(t *testing.T) {
 	c, err := NewClient(context.Background(), authID, authToken)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -36,7 +36,7 @@ func TestCall(t *testing.T) {
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-	resp, err := c.Call(fromNumber, toNumber, u)
+	resp, err := c.MakeCall(fromNumber, toNumber, u)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}

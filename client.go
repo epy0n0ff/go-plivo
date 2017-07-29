@@ -30,7 +30,7 @@ func NewClient(ctx context.Context, authID, authToken string) (*Client, error) {
 	return &Client{ctx, base, authID, authToken, http.DefaultClient}, nil
 }
 
-func (c *Client) Call(from, to string, answerURL *url.URL) (*http.Response, error) {
+func (c *Client) MakeCall(from, to string, answerURL *url.URL) (*http.Response, error) {
 	u := c.baseURL
 	u.Path = fmt.Sprintf("/v1/Account/%s/Call/", c.authID)
 
